@@ -210,113 +210,185 @@
 //????////////////////////////////
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
+#include <limits>  // Для очистки буфера ввода
+#include <unistd.h>  // Для использования функции sleep
 #include <stack>
-#include <string>
-#include <vector>
-
 using namespace std;
 
-class Train {
-public:
-    string type; // тип вагона
-    int number;  // номер вагона
-
-    Train(string t, int n) : type(t), number(n) {}
-};
-
-class TrainSortingNode {
+class STACK {
 private:
-    stack<Train> leftDirection;  // Вагоны направляющиеся влево
-    stack<Train> rightDirection; // Вагоны направляющиеся вправо
+    stack<int> myStack1;
+    stack<int> myStack2;
+    stack<int> myStack3;
+    stack<int> myStack4;
 
 public:
-    void addTrainsToDirection(const Train &train, const string &direction) {
-        if (direction == "влево") {
-            leftDirection.push(train);
-        } else if (direction == "вправо") {
-            rightDirection.push(train);
+    void input(int a) {
+        myStack1.push(a);
+        myStack2 = myStack1;
+    }
+
+    void raz(int n) {
+        if (myStack1.empty()) {
+            cout << "Нет данных!" << endl;
         } else {
-            cout << "Некорректное направление.\n";
+            for (int i = 0; i < n; i++) {
+                if (myStack1.top() % 2 == 0) {
+                    myStack3.push(myStack1.top());
+                    myStack1.pop();
+                } else {
+                    myStack4.push(myStack1.top());
+                    myStack1.pop();
+                }
+            }
+            cout << "Деление завершено!" << endl;
         }
     }
 
-    void displayTrains() {
-        cout << "Составы по направлениям:\n";
-        cout << "Влево:\n";
-        displayStack(leftDirection);
-        cout << "Вправо:\n";
-        displayStack(rightDirection);
-    }
+    void file_Show() {
+        ifstream fin;
+        string filePath = "/Users/abulhairkamiev/Spring/file2.txt";  // Specify the full path
+        fin.open(filePath);
 
-    void displayStack(stack<Train> &s) {
-        if (s.empty()) {
-            cout << "Стек пуст.\n";
-            return;
+        if (!fin.is_open()) {
+            cout << "Файл не открылся! " << endl;
+        } else {
+            int a;
+            while (fin >> a) {
+                myStack1.push(a);
+            }
+            myStack2 = myStack1;
         }
 
-        stack<Train> temp = s;
-        cout << "\nТаблица вагонов:\n";
-        cout << "------------------------------------\n";
-        cout << "| тип | номер |\n";
-
-        while (!temp.empty()) {
-            cout << '|' << temp.top().type << " | " << temp.top().number << "|\n";
-            temp.pop();
-        }
-        cout << "------------------------------------\n";
-        cout << endl;
+        fin.close();
+        cout << "Данные считаны из файла!!" << endl;
     }
 
-    void loadTrainsFromConsole() {
-        int n;
-        cout << "Введите количество вагонов: ";
-        cin >> n;
 
-        for (int i = 0; i < n; ++i) {
-            string type, direction;
-            int number;
+    void Show() {
+        myStack2 = myStack1;
+        if (!myStack2.empty()) {
+            while (!myStack2.empty()) {
+                cout << myStack2.top() << endl;
+                myStack2.pop();
+            }
+        } else {
+            cout << "Стек пуст!" << endl;
+        }
+    }
 
-            cout << "Введите данные для вагона #" << i + 1 << ":\n";
-            cout << "Тип (грузовой/пассажирский): ";
-            cin >> type;
-            cout << "Номер: ";
-            cin >> number;
-            cout << "Направление (влево/вправо): ";
-            cin >> direction;
+    void chetn() {
+        myStack2 = myStack3;
 
-            addTrainsToDirection(Train(type, number), direction);
+        if (!myStack2.empty()) {
+            while (!myStack2.empty()) {
+                cout << myStack2.top() << endl;
+                myStack2.pop();
+            }
+        } else {
+            cout << "Нет таких вагонов!" << endl;
+        }
+    }
+
+    void ne_chetn() {
+        myStack2 = myStack4;
+        if (!myStack2.empty()) {
+            while (!myStack2.empty()) {
+                cout << myStack2.top() << endl;
+                myStack2.pop();
+            }
+        } else {
+            cout << "Нет таких вагонов!" << endl;
         }
     }
 };
 
 int main() {
-    TrainSortingNode sortingNode;
+    setlocale(LC_ALL, "RUS");
+    srand(static_cast<unsigned int>(time(NULL)));
+    int col = 0, zn = 0;
+    int val = 0;
 
-    int choice;
-    do {
-        cout << "\nМеню:\n";
-        cout << "1. Ввести составы\n";
-        cout << "2. Показать составы\n";
-        cout << "3. Выход\n";
-        cout << "Выберите действие: ";
-        cin >> choice;
+    STACK obj;
 
-        switch (choice) {
-            case 1:
-                sortingNode.loadTrainsFromConsole();
-                cout << "Составы загружены с клавиатуры.\n";
-                break;
-            case 2:
-                sortingNode.displayTrains();
-                break;
-            case 3:
-                cout << "Выход из программы.\n";
-                break;
-            default:
-                cout << "Некорректный выбор.\n";
+    cout << "Введите количество вагонов: ";
+    cin >> col;
+
+    ofstream fout;
+    fout.open("file2.txt");
+    if (!fout.is_open()) {
+        cout << "Файл не открылся!" << endl;
+        return 1;
+    } else {
+        for (int i = 0; i < col; i++) {
+            fout << rand() % 20 << endl;
         }
-    } while (choice != 3);
+    }
+    fout.close();
 
+    while (val != 6) {
+        system("clear");  // Используем "clear" для очистки экрана на macOS
+        cout << "\tМеню" << endl;
+        cout << "0) Ввод данных вагонов\n1) Формирование состава из файла\n2) Вывод\n3) Разделить вагоны\n4) Вывод четных вагонов\n5) Вывод нечетных вагонов\n6) Выход\n";
+        cout << "\nВыберите из меню: ";
+        cin >> val;
+
+        if (val == 0) {
+            system("clear");
+            cout << "Введите номера вагонов (int): " << endl;
+            for (int i = 0; i < col; i++) {
+                cin >> zn;
+                obj.input(zn);
+            }
+            cout << "\nДанные записаны!\n\n";
+            // Очистка буфера ввода
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Нажмите Enter для продолжения...";
+            cin.get();
+        } else if (val == 1) {
+            system("clear");
+            obj.file_Show();
+            // Очистка буфера ввода
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Нажмите Enter для продолжения...";
+            cin.get();
+        } else if (val == 2) {
+            system("clear");
+            cout << "\tВсе вагоны: \n\n";
+            obj.Show();
+            // Очистка буфера ввода
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Нажмите Enter для продолжения...";
+            cin.get();
+        } else if (val == 3) {
+            system("clear");
+            obj.raz(col);
+            // Очистка буфера ввода
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Нажмите Enter для продолжения...";
+            cin.get();
+        } else if (val == 4) {
+            system("clear");
+            cout << "\tВагоны с четными номерами: \n\n";
+            obj.chetn();
+            // Очистка буфера ввода
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Нажмите Enter для продолжения...";
+            cin.get();
+        } else if (val == 5) {
+            system("clear");
+            cout << "\tВагоны с нечетными номерами: \n\n";
+            obj.ne_chetn();
+            // Очистка буфера ввода
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Нажмите Enter для продолжения...";
+            cin.get();
+        }
+    }
+
+    cout << "До свидания!" << endl;
     return 0;
 }
 

@@ -1,394 +1,396 @@
+////          lab2
+////task 1
+//
 //#include <iostream>
 //#include <vector>
 //#include <algorithm>
-//using namespace std;
 //
 //class Aeroflot {
 //public:
-//    string flight_number;
-//    string departure_city;
-//    string destination_city;
-//    string arrival_time;
-//    string departure_time;
-//    string registration_place;
-//};
-//class MyClass
-//{
-//public:
+//    int flightNumber;
+//    std::string departurePoint;
+//    std::string destinationPoint;
+//    std::string arrivalTime;
+//    std::string departureTime;
+//    int registrationSection;
 //
+//    Aeroflot(int flightNumber, const std::string& departurePoint, const std::string& destinationPoint,
+//            const std::string& arrivalTime, const std::string& departureTime, int registrationSection)
+//        : flightNumber(flightNumber),
+//          departurePoint(departurePoint),
+//          destinationPoint(destinationPoint),
+//          arrivalTime(arrivalTime),
+//          departureTime(departureTime),
+//          registrationSection(registrationSection) {}
 //
-//private:
-//
-//};
-//
-//bool compareByDestination(const Aeroflot& a, const Aeroflot& b) {
-//    return a.destination_city < b.destination_city;
-//}
-//
-//void printFlightTable(const vector<Aeroflot>& flights) {
-//    if (flights.empty()) {
-//        cout << "Нет доступных рейсов." << endl;
-//        return;
+//    void displayFlightInfo() const {
+//        std::cout << flightNumber << "\t\t" << departurePoint << "\t\t" << destinationPoint << "\t\t"
+//                  << arrivalTime << "\t\t" << departureTime << "\t\t" << registrationSection << std::endl;
 //    }
+//};
 //
-//    cout << "Номер рейса\tОтправление\tНазначение\tПрибытие\tОтправление\tМесто регистрации" << endl;
-//
-//    for (const Aeroflot& flight : flights) {
-//        cout << flight.flight_number << "\t\t" << flight.departure_city << "\t\t" << flight.destination_city
-//            << "\t\t" << flight.arrival_time << "\t\t" << flight.departure_time << "\t\t" << flight.registration_place << endl;
-//    }
+//bool compareFlights(const Aeroflot& flight1, const Aeroflot& flight2) {
+//    return flight1.destinationPoint < flight2.destinationPoint;
 //}
 //
 //int main() {
-//    setlocale(LC_ALL, "RU");
-//    vector<Aeroflot> flights;
+//    std::vector<Aeroflot> flights;
+//    setlocale(LC_ALL, ("ru"));
 //
 //    // Ввод информации о рейсах с клавиатуры
-//    int n;
-//    cout << "Введите количество рейсов: ";
-//    cin >> n;
+//    int numFlights;
+//    std::cout << "Введите количество рейсов: ";
+//    std::cin >> numFlights;
 //
-//    for (int i = 0; i < n; ++i) {
-//        Aeroflot flight;
-//        MyClass flight1;
-//        
-//        cout << "Номер рейса: ";
-//        cin >> flight.flight_number;
-//        cout << "Пункт отправления: ";
-//        cin >> flight.departure_city;
-//        cout << "Пункт назначения: ";
-//        cin >> flight.destination_city;
-//        cout << "Время прибытия: ";
-//        cin >> flight.arrival_time;
-//        cout << "Время отправления: ";
-//        cin >> flight.departure_time;
-//        cout << "Номер секции для регистрации: ";
-//        cin >> flight.registration_place;
+//    for (int i = 0; i < numFlights; ++i) {
+//        int flightNumber;
+//        std::string departurePoint, destinationPoint, arrivalTime, departureTime;
+//        int registrationSection;
 //
-//        flights.push_back(flight);
+//        std::cout << "Введите информацию о рейсе " << i + 1 << ":" << std::endl;
+//        std::cout << "Номер рейса: ";
+//        std::cin >> flightNumber;
+//        std::cout << "Пункт отправления: ";
+//        std::cin >> departurePoint;
+//        std::cout << "Пункт назначения: ";
+//        std::cin >> destinationPoint;
+//        std::cout << "Время прибытия: ";
+//        std::cin >> arrivalTime;
+//        std::cout << "Время отправления: ";
+//        std::cin >> departureTime;
+//        std::cout << "Номер секции для регистрации: ";
+//        std::cin >> registrationSection;
+//
+//        flights.emplace_back(flightNumber, departurePoint, destinationPoint,
+//                             arrivalTime, departureTime, registrationSection);
 //    }
-//    
-//    // Сортировка по названию пунктов назначения
-//    sort(flights.begin(), flights.end(), compareByDestination);
+//
+//    // Сортировка рейсов по названию пунктов назначения
+//    std::sort(flights.begin(), flights.end(), compareFlights);
 //
 //    // Вывод таблицы рейсов
-//    printFlightTable(flights);
+//    std::cout << "\nТаблица рейсов:\n";
+//    std::cout << "Номер\tОтправление\tНазначение\tПрибытие\tОтправка\tРегистрация\n";
+//    if (!flights.empty()) {
+//        for (const auto& flight : flights) {
+//            flight.displayFlightInfo();
+//        }
+//    } else {
+//        std::cout << "Нет доступных рейсов.\n";
+//    }
 //
 //    return 0;
 //}
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// task 2
+//
 //#include <iostream>
 //#include <vector>
 //#include <algorithm>
-//#include <locale>
-//
-//using namespace std;
+//#include <string>
 //
 //class Student {
 //public:
-//    string firstName;
-//    string lastName;
-//    string dateOfBirth;
-//    string phoneNumber;
+//    std::string firstName;
+//    std::string lastName;
+//    std::string dateOfBirth;
+//    std::string phoneNumber;
+//
+//    Student(const std::string& firstName, const std::string& lastName,
+//            const std::string& dateOfBirth, const std::string& phoneNumber)
+//        : firstName(firstName),
+//          lastName(lastName),
+//          dateOfBirth(dateOfBirth),
+//          phoneNumber(phoneNumber) {}
 //};
 //
 //class StudentGroup {
 //private:
-//    vector<Student> students;
+//    std::vector<Student> students;
 //
 //public:
-//    void addStudent(const string& firstName, const string& lastName, const string& dateOfBirth, const string& phoneNumber) {
-//        students.push_back({ firstName, lastName, dateOfBirth, phoneNumber });
+//    void addStudent(const Student& student) {
+//        students.push_back(student);
 //    }
 //
-//    void removeStudentByLastName(const string& lastName) {
-//        students.erase(remove_if(students.begin(), students.end(),
-//            [lastName](const Student& student) { return student.lastName == lastName; }),
-//            students.end());
+//    void removeStudent(const std::string& lastName) {
+//        students.erase(std::remove_if(students.begin(), students.end(),
+//                       [&lastName](const Student& student) { return student.lastName == lastName; }),
+//                       students.end());
 //    }
 //
-//    Student* findStudentByLastName(const string& lastName) {
-//        auto it = find_if(students.begin(), students.end(),
-//            [lastName](const Student& student) { return student.lastName == lastName; });
+//    Student* findStudent(const std::string& lastName) {
+//        auto it = std::find_if(students.begin(), students.end(),
+//                               [&lastName](const Student& student) { return student.lastName == lastName; });
 //
 //        return (it != students.end()) ? &(*it) : nullptr;
 //    }
 //
-//    void sortStudentsByLastName() {
-//        sort(students.begin(), students.end(), [](const Student& a, const Student& b) {
-//            return a.lastName < b.lastName;
-//            });
+//    void sortStudentsByName() {
+//        std::sort(students.begin(), students.end(),
+//                  [](const Student& a, const Student& b) { return a.lastName < b.lastName; });
 //    }
 //
-//    void displayStudents() {
-//        if (students.empty()) {
-//            cout << "Группа пуста." << endl;
-//            return;
-//        }
+//    void sortStudentsByDateOfBirth() {
+//        std::sort(students.begin(), students.end(),
+//                  [](const Student& a, const Student& b) { return a.dateOfBirth < b.dateOfBirth; });
+//    }
 //
-//        cout << "Фамилия\t\tИмя\t\tДата рождения\t\tНомер телефона" << endl;
-//        for (const auto& student : students) {
-//            cout << student.lastName << "\t" << student.firstName << "\t\t"
-//                << student.dateOfBirth << "\t\t" << student.phoneNumber << endl;
+//    void displayStudents() const {
+//        if (students.empty()) {
+//            std::cout << "Группа пуста.\n";
+//        } else {
+//            std::cout << "Студенты в группе:\n";
+//            for (const auto& student : students) {
+//                std::cout << "Фамилия: " << student.lastName << "\tИмя: " << student.firstName
+//                          << "\tДата рождения: " << student.dateOfBirth << "\tТелефон: " << student.phoneNumber << std::endl;
+//            }
 //        }
 //    }
 //};
 //
 //int main() {
-//    setlocale(LC_ALL, "Russian");
+//    setlocale(LC_ALL, ("ru"));
 //    StudentGroup group;
 //
-//    while (true) {
-//        cout << "\nМеню:\n";
-//        cout << "1. Добавить студента\n";
-//        cout << "2. Удалить студента по фамилии\n";
-//        cout << "3. Найти студента по фамилии\n";
-//        cout << "4. Сортировать студентов по фамилии\n";
-//        cout << "5. Вывести список студентов\n";
-//        cout << "0. Выйти из программы\n";
-//
-//        int choice;
-//        cout << "Выберите действие: ";
-//        cin >> choice;
+//    int choice;
+//    do {
+//        std::cout << "\nМеню:\n";
+//        std::cout << "1. Добавить студента\n";
+//        std::cout << "2. Удалить студента\n";
+//        std::cout << "3. Найти студента по фамилии\n";
+//        std::cout << "4. Сортировать студентов по фамилии\n";
+//        std::cout << "5. Сортировать студентов по дате рождения\n";
+//        std::cout << "6. Вывести список студентов\n";
+//        std::cout << "0. Выход\n";
+//        std::cout << "Выберите действие: ";
+//        std::cin >> choice;
 //
 //        switch (choice) {
-//        case 1: {
-//            string firstName, lastName, dateOfBirth, phoneNumber;
-//            cout << "Введите имя студента: ";
-//            cin >> firstName;
-//            cout << "Введите фамилию студента: ";
-//            cin >> lastName;
-//            cout << "Введите дату рождения студента: ";
-//            cin >> dateOfBirth;
-//            cout << "Введите номер телефона студента: ";
-//            cin >> phoneNumber;
+//            case 1: {
+//                std::string firstName, lastName, dateOfBirth, phoneNumber;
+//                std::cout << "Введите данные студента:\n";
+//                std::cout << "Имя: ";
+//                std::cin >> firstName;
+//                std::cout << "Фамилия: ";
+//                std::cin >> lastName;
+//                std::cout << "Дата рождения: ";
+//                std::cin >> dateOfBirth;
+//                std::cout << "Номер телефона: ";
+//                std::cin >> phoneNumber;
 //
-//            group.addStudent(firstName, lastName, dateOfBirth, phoneNumber);
-//            break;
-//        }
-//        case 2: {
-//            string lastName;
-//            cout << "Введите фамилию студента для удаления: ";
-//            cin >> lastName;
-//
-//            group.removeStudentByLastName(lastName);
-//            break;
-//        }
-//        case 3: {
-//            string lastName;
-//            cout << "Введите фамилию студента для поиска: ";
-//            cin >> lastName;
-//
-//            Student* foundStudent = group.findStudentByLastName(lastName);
-//            if (foundStudent != nullptr) {
-//                cout << "Студент найден: " << foundStudent->firstName << " " << foundStudent->lastName << endl;
+//                group.addStudent(Student(firstName, lastName, dateOfBirth, phoneNumber));
+//                break;
 //            }
-//            else {
-//                cout << "Студент не найден." << endl;
+//            case 2: {
+//                std::string lastName;
+//                std::cout << "Введите фамилию студента для удаления: ";
+//                std::cin >> lastName;
+//                group.removeStudent(lastName);
+//                break;
 //            }
-//            break;
+//            case 3: {
+//                std::string lastName;
+//                std::cout << "Введите фамилию студента для поиска: ";
+//                std::cin >> lastName;
+//                Student* foundStudent = group.findStudent(lastName);
+//                if (foundStudent) {
+//                    std::cout << "Студент найден:\n";
+//                    std::cout << "Фамилия: " << foundStudent->lastName << "\tИмя: " << foundStudent->firstName
+//                              << "\tДата рождения: " << foundStudent->dateOfBirth << "\tТелефон: " << foundStudent->phoneNumber << std::endl;
+//                } else {
+//                    std::cout << "Студент не найден.\n";
+//                }
+//                break;
+//            }
+//            case 4:
+//                group.sortStudentsByName();
+//                std::cout << "Студенты отсортированы по фамилии.\n";
+//                break;
+//            case 5:
+//                group.sortStudentsByDateOfBirth();
+//                std::cout << "Студенты отсортированы по дате рождения.\n";
+//                break;
+//            case 6:
+//                group.displayStudents();
+//                break;
+//            case 0:
+//                std::cout << "Выход из программы.\n";
+//                break;
+//            default:
+//                std::cout << "Некорректный выбор. Попробуйте снова.\n";
 //        }
-//        case 4:
-//            group.sortStudentsByLastName();
-//            cout << "Студенты отсортированы по фамилии." << endl;
-//            break;
-//        case 5:
-//            group.displayStudents();
-//            break;
-//        case 0:
-//            return 0;
-//        default:
-//            cout << "Неверный выбор. Повторите попытку." << endl;
-//        }
-//    }
+//
+//    } while (choice != 0);
 //
 //    return 0;
 //}
 //
-//????////////////////////////////
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include <ctime>
-#include <limits>  // Для очистки буфера ввода
-#include <unistd.h>  // Для использования функции sleep
-#include <stack>
-using namespace std;
-
-class STACK {
-private:
-    stack<int> myStack1;
-    stack<int> myStack2;
-    stack<int> myStack3;
-    stack<int> myStack4;
-
-public:
-    void input(int a) {
-        myStack1.push(a);
-        myStack2 = myStack1;
-    }
-
-    void raz(int n) {
-        if (myStack1.empty()) {
-            cout << "Нет данных!" << endl;
-        } else {
-            for (int i = 0; i < n; i++) {
-                if (myStack1.top() % 2 == 0) {
-                    myStack3.push(myStack1.top());
-                    myStack1.pop();
-                } else {
-                    myStack4.push(myStack1.top());
-                    myStack1.pop();
-                }
-            }
-            cout << "Деление завершено!" << endl;
-        }
-    }
-
-    void file_Show() {
-        ifstream fin;
-        string filePath = "/Users/abulhairkamiev/Spring/file2.txt";  // Specify the full path
-        fin.open(filePath);
-
-        if (!fin.is_open()) {
-            cout << "Файл не открылся! " << endl;
-        } else {
-            int a;
-            while (fin >> a) {
-                myStack1.push(a);
-            }
-            myStack2 = myStack1;
-        }
-
-        fin.close();
-        cout << "Данные считаны из файла!!" << endl;
-    }
-
-
-    void Show() {
-        myStack2 = myStack1;
-        if (!myStack2.empty()) {
-            while (!myStack2.empty()) {
-                cout << myStack2.top() << endl;
-                myStack2.pop();
-            }
-        } else {
-            cout << "Стек пуст!" << endl;
-        }
-    }
-
-    void chetn() {
-        myStack2 = myStack3;
-
-        if (!myStack2.empty()) {
-            while (!myStack2.empty()) {
-                cout << myStack2.top() << endl;
-                myStack2.pop();
-            }
-        } else {
-            cout << "Нет таких вагонов!" << endl;
-        }
-    }
-
-    void ne_chetn() {
-        myStack2 = myStack4;
-        if (!myStack2.empty()) {
-            while (!myStack2.empty()) {
-                cout << myStack2.top() << endl;
-                myStack2.pop();
-            }
-        } else {
-            cout << "Нет таких вагонов!" << endl;
-        }
-    }
-};
-
-int main() {
-    setlocale(LC_ALL, "RUS");
-    srand(static_cast<unsigned int>(time(NULL)));
-    int col = 0, zn = 0;
-    int val = 0;
-
-    STACK obj;
-
-    cout << "Введите количество вагонов: ";
-    cin >> col;
-
-    ofstream fout;
-    fout.open("file2.txt");
-    if (!fout.is_open()) {
-        cout << "Файл не открылся!" << endl;
-        return 1;
-    } else {
-        for (int i = 0; i < col; i++) {
-            fout << rand() % 20 << endl;
-        }
-    }
-    fout.close();
-
-    while (val != 6) {
-        system("clear");  // Используем "clear" для очистки экрана на macOS
-        cout << "\tМеню" << endl;
-        cout << "0) Ввод данных вагонов\n1) Формирование состава из файла\n2) Вывод\n3) Разделить вагоны\n4) Вывод четных вагонов\n5) Вывод нечетных вагонов\n6) Выход\n";
-        cout << "\nВыберите из меню: ";
-        cin >> val;
-
-        if (val == 0) {
-            system("clear");
-            cout << "Введите номера вагонов (int): " << endl;
-            for (int i = 0; i < col; i++) {
-                cin >> zn;
-                obj.input(zn);
-            }
-            cout << "\nДанные записаны!\n\n";
-            // Очистка буфера ввода
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Нажмите Enter для продолжения...";
-            cin.get();
-        } else if (val == 1) {
-            system("clear");
-            obj.file_Show();
-            // Очистка буфера ввода
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Нажмите Enter для продолжения...";
-            cin.get();
-        } else if (val == 2) {
-            system("clear");
-            cout << "\tВсе вагоны: \n\n";
-            obj.Show();
-            // Очистка буфера ввода
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Нажмите Enter для продолжения...";
-            cin.get();
-        } else if (val == 3) {
-            system("clear");
-            obj.raz(col);
-            // Очистка буфера ввода
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Нажмите Enter для продолжения...";
-            cin.get();
-        } else if (val == 4) {
-            system("clear");
-            cout << "\tВагоны с четными номерами: \n\n";
-            obj.chetn();
-            // Очистка буфера ввода
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Нажмите Enter для продолжения...";
-            cin.get();
-        } else if (val == 5) {
-            system("clear");
-            cout << "\tВагоны с нечетными номерами: \n\n";
-            obj.ne_chetn();
-            // Очистка буфера ввода
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Нажмите Enter для продолжения...";
-            cin.get();
-        }
-    }
-
-    cout << "До свидания!" << endl;
-    return 0;
-}
-
+// task 3
+//
+//#include <iostream>
+//#include <stack>
+//#include <fstream>
+//#include <string>
+//#include <vector>
+//
+//// Класс стека
+//template <typename T>
+//class Stack {
+//private:
+//    std::stack<T> data;
+//
+//public:
+//    void push(const T& element) {
+//        data.push(element);
+//    }
+//
+//    void pop() {
+//        if (!data.empty()) {
+//            data.pop();
+//        }
+//    }
+//
+//    T top() const {
+//        return data.top();
+//    }
+//
+//    bool empty() const {
+//        return data.empty();
+//    }
+//
+//    size_t size() const {
+//        return data.size();
+//    }
+//};
+//
+//// Структура для хранения информации о вагоне
+//struct Wagon {
+//    int number;
+//};
+//
+//// Функция для сохранения состава в файл
+//void saveTrainToFile(const Stack<Wagon>& platform) {
+//    std::ofstream file("train_data.txt");
+//    if (file.is_open()) {
+//        Stack<Wagon> tempPlatform = platform;
+//        while (!tempPlatform.empty()) {
+//            file << tempPlatform.top().number << " ";
+//            tempPlatform.pop();
+//        }
+//        file.close();
+//        std::cout << "Состав сохранен в файле 'train_data.txt'." << std::endl;
+//    } else {
+//        std::cout << "Не удалось открыть файл для сохранения." << std::endl;
+//    }
+//}
+//
+//// Функция для формирования состава из файла
+//void fillTrainFromFile(Stack<Wagon>& platform) {
+//    std::ifstream file("train_data.txt");
+//    if (file.is_open()) {
+//        int wagonNumber;
+//        while (file >> wagonNumber) {
+//            platform.push({wagonNumber});
+//        }
+//        file.close();
+//        std::cout << "Состав загружен из файла 'train_data.txt'." << std::endl;
+//    } else {
+//        std::cout << "Не удалось открыть файл. Создание нового файла." << std::endl;
+//    }
+//}
+//
+//// Функция для формирования состава
+//void fillTrain(Stack<Wagon>& platform) {
+//    int wagonNumber;
+//    std::cout << "Введите номера вагонов (Q для завершения):" << std::endl;
+//
+//    while (std::cin >> wagonNumber) {
+//        platform.push({wagonNumber});
+//
+//        // Проверка наличия символа новой строки (Enter)
+//        if (std::cin.peek() == '\n') {
+//            break;
+//        }
+//    }
+//    saveTrainToFile(platform); // Сохраняем состав в файл после ввода с клавиатуры
+//}
+//
+//// Функция для обработки состава на сортировочном узле
+//void processTrain(Stack<Wagon>& inputTrack, Stack<Wagon>& outputTrackA, Stack<Wagon>& outputTrackB) {
+//    while (!inputTrack.empty()) {
+//        if (inputTrack.top().number % 2 == 0) {
+//            outputTrackA.push(inputTrack.top());
+//        } else {
+//            outputTrackB.push(inputTrack.top());
+//        }
+//        inputTrack.pop();
+//    }
+//}
+//
+//// Функция для вывода всех вагонов
+//void displayAllWagons(const Stack<Wagon>& platform) {
+//    std::cout << "Все вагоны: ";
+//    Stack<Wagon> tempPlatform = platform;
+//    while (!tempPlatform.empty()) {
+//        std::cout << tempPlatform.top().number << " ";
+//        tempPlatform.pop();
+//    }
+//    std::cout << std::endl;
+//}
+//
+//int main() {
+//    // При создании объекта inputTrack автоматически создается файл
+//    Stack<Wagon> inputTrack;
+//
+//    Stack<Wagon> outputTrackA;
+//    Stack<Wagon> outputTrackB;
+//
+//    std::cout << "Файл автоматически создан." << std::endl;
+//
+//    int choice;
+//    do {
+//        std::cout << "\nМеню:\n";
+//        std::cout << "1. Ввод данных вагонов.\n";
+//        std::cout << "2. Сохранение вагонов в файл.\n";
+//        std::cout << "3. Обработка вагонов на сортировочном узле.\n";
+//        std::cout << "4. Вывод четных вагонов.\n";
+//        std::cout << "5. Вывод нечетных вагонов.\n";
+//        std::cout << "6. Вывод всех вагонов.\n";
+//        std::cout << "0. Выход.\n";
+//        std::cout << "Выберите опцию: ";
+//        std::cin >> choice;
+//
+//        switch (choice) {
+//            case 1:
+//                fillTrain(inputTrack);
+//                break;
+//            case 2:
+//                saveTrainToFile(inputTrack);
+//                break;
+//            case 3:
+//                processTrain(inputTrack, outputTrackA, outputTrackB);
+//                std::cout << "Состав обработан на сортировочном узле." << std::endl;
+//                break;
+//            case 4:
+//                displayAllWagons(outputTrackA);
+//                break;
+//            case 5:
+//                displayAllWagons(outputTrackB);
+//                break;
+//            case 6:
+//                displayAllWagons(inputTrack);
+//                break;
+//            case 0:
+//                std::cout << "Выход из программы." << std::endl;
+//                break;
+//            default:
+//                std::cout << "Некорректный выбор. Повторите ввод." << std::endl;
+//                break;
+//        }
+//
+//    } while (choice != 0);
+//
+//    return 0;
+//}

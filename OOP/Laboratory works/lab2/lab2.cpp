@@ -211,112 +211,112 @@
 #include <iostream>
 #include <fstream>
 #include <stack>
+#include <string>
 #include <vector>
 
-// Класс для реализации стека
-class Stack {
+using namespace std;
+
+class Train {
+public:
+    string type; // тип вагона
+    int number;  // номер вагона
+
+    Train(string t, int n) : type(t), number(n) {}
+};
+
+class TrainSortingNode {
 private:
-    std::vector<int> data;
+    stack<Train> leftDirection;  // Вагоны направляющиеся влево
+    stack<Train> rightDirection; // Вагоны направляющиеся вправо
 
 public:
-    // Добавление элемента в стек
-    void push(int value) {
-        data.push_back(value);
-    }
-
-    // Удаление элемента из стека
-    void pop() {
-        if (!isEmpty()) {
-            data.pop_back();
+    void addTrainsToDirection(const Train &train, const string &direction) {
+        if (direction == "влево") {
+            leftDirection.push(train);
+        } else if (direction == "вправо") {
+            rightDirection.push(train);
+        } else {
+            cout << "Некорректное направление.\n";
         }
     }
 
-    // Проверка на пустоту стека
-    bool isEmpty() const {
-        return data.empty();
+    void displayTrains() {
+        cout << "Составы по направлениям:\n";
+        cout << "Влево:\n";
+        displayStack(leftDirection);
+        cout << "Вправо:\n";
+        displayStack(rightDirection);
     }
 
-    // Получение верхнего элемента стека
-    int top() const {
-        if (!isEmpty()) {
-            return data.back();
+    void displayStack(stack<Train> &s) {
+        if (s.empty()) {
+            cout << "Стек пуст.\n";
+            return;
         }
-        else {
-            // Возвращаем какой-то специальный флаг или выбрасываем исключение,
-            // так как в пустом стеке нет вершины
-            // В данном примере вернем -1 как флаг ошибки
-            return -1;
+
+        stack<Train> temp = s;
+        cout << "\nТаблица вагонов:\n";
+        cout << "------------------------------------\n";
+        cout << "| тип | номер |\n";
+
+        while (!temp.empty()) {
+            cout << '|' << temp.top().type << " | " << temp.top().number << "|\n";
+            temp.pop();
+        }
+        cout << "------------------------------------\n";
+        cout << endl;
+    }
+
+    void loadTrainsFromConsole() {
+        int n;
+        cout << "Введите количество вагонов: ";
+        cin >> n;
+
+        for (int i = 0; i < n; ++i) {
+            string type, direction;
+            int number;
+
+            cout << "Введите данные для вагона #" << i + 1 << ":\n";
+            cout << "Тип (грузовой/пассажирский): ";
+            cin >> type;
+            cout << "Номер: ";
+            cin >> number;
+            cout << "Направление (влево/вправо): ";
+            cin >> direction;
+
+            addTrainsToDirection(Train(type, number), direction);
         }
     }
 };
 
-// Функция для формирования двух поездов по заданному условию
-void formTrain(Stack& inputStack, Stack& outputStackA, Stack& outputStackB) {
-    while (!inputStack.isEmpty()) {
-        int currentWagon = inputStack.top();
-        inputStack.pop();
-
-        // Пример условия для разделения по направлениям
-        if (currentWagon % 2 == 0) {
-            outputStackA.push(currentWagon);  // Добавляем в поезд A
-        }
-        else {
-            outputStackB.push(currentWagon);  // Добавляем в поезд B
-        }
-    }
-}
-
 int main() {
-    Stack inputStack;      // Стек для ввода
-    Stack outputStackA;    // Стек для поезда A
-    Stack outputStackB;    // Стек для поезда B
+    TrainSortingNode sortingNode;
 
     int choice;
-    std::cout << "Выберите метод ввода:\n"
-        << "1. Ручной ввод\n"
-        << "2. Чтение из файла\n";
-    std::cin >> choice;
+    do {
+        cout << "\nМеню:\n";
+        cout << "1. Ввести составы\n";
+        cout << "2. Показать составы\n";
+        cout << "3. Выход\n";
+        cout << "Выберите действие: ";
+        cin >> choice;
 
-    if (choice == 1) {
-        // Ручной ввод
-        int wagon;
-        std::cout << "Введите номера вагонов (введите нецелочисленное значение для завершения ввода):\n";
-        while (std::cin >> wagon) {
-            inputStack.push(wagon);
+        switch (choice) {
+            case 1:
+                sortingNode.loadTrainsFromConsole();
+                cout << "Составы загружены с клавиатуры.\n";
+                break;
+            case 2:
+                sortingNode.displayTrains();
+                break;
+            case 3:
+                cout << "Выход из программы.\n";
+                break;
+            default:
+                cout << "Некорректный выбор.\n";
         }
-    }
-    else if (choice == 2) {
-        // Ввод из файла
-        std::ifstream inputFile("train_composition.txt");
-        int wagon;
-        while (inputFile >> wagon) {
-            inputStack.push(wagon);
-        }
-        inputFile.close();
-    }
-    else {
-        std::cout << "Неверный выбор. Программа завершена.\n";
-        return 1;
-    }
-
-    formTrain(inputStack, outputStackA, outputStackB);
-
-    // Вывод результатов
-    std::cout << "Поезд для направления A:" << std::endl;
-    while (!outputStackA.isEmpty()) {
-        std::cout << outputStackA.top() << " ";
-        outputStackA.pop();
-    }
-    std::cout << std::endl;
-
-    std::cout << "Поезд для направления B:" << std::endl;
-    while (!outputStackB.isEmpty()) {
-        std::cout << outputStackB.top() << " ";
-        outputStackB.pop();
-    }
-    std::cout << std::endl;
+    } while (choice != 3);
 
     return 0;
 }
-
 

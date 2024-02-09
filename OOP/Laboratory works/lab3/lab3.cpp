@@ -116,18 +116,21 @@ int main() {
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <iomanip>
+#include <sstream> // Включение для std::stringstream
 
 class Soft {
 private:
     std::string name;
     std::string developer;
     double size;
-    std::chrono::system_clock::time_point licenseExpirationDate;
+    std::chrono::system_clock::time_point licenseStartDate;
+    std::chrono::system_clock::duration licenseDuration;
 
 public:
     // Конструктор класса
-    Soft(const std::string& name, const std::string& developer, double size, const std::chrono::system_clock::time_point& expirationDate)
-        : name(name), developer(developer), size(size), licenseExpirationDate(expirationDate) {
+    Soft(const std::string& name, const std::string& developer, double size, const std::chrono::system_clock::time_point& startDate, const std::chrono::system_clock::duration& duration)
+        : name(name), developer(developer), size(size), licenseStartDate(startDate), licenseDuration(duration) {
         std::cout << "Object of class Soft is being created." << std::endl;
     }
 
@@ -136,11 +139,14 @@ public:
         std::cout << "Object of class Soft is being destroyed." << std::endl;
     }
 
-    // Функция для подсчета количества дней до завершения лицензии
-    int daysUntilLicenseExpiration() const {
-        auto now = std::chrono::system_clock::now();
-        std::chrono::duration<int> diff = std::chrono::duration_cast<std::chrono::days>(licenseExpirationDate - now);
-        return diff.count();
+    // Функция для подсчета даты окончания лицензии
+    std::chrono::system_clock::time_point getLicenseEndDate() const {
+        return licenseStartDate + licenseDuration;
+    }
+
+    // Функция для проверки, истекла ли лицензия
+    bool isLicenseExpired() const {
+        return std::chrono::system_clock::now() > getLicenseEndDate();
     }
 
     // Функция для вывода всех данных об установленном программном обеспечении на экран
@@ -148,15 +154,56 @@ public:
         std::cout << "Name: " << name << std::endl;
         std::cout << "Developer: " << developer << std::endl;
         std::cout << "Size: " << size << " MB" << std::endl;
-        std::cout << "Days until license expiration: " << daysUntilLicenseExpiration() << std::endl;
+        std::cout << "License start date: " << formatDate(licenseStartDate) << std::endl;
+        std::cout << "License end date: " << formatDate(getLicenseEndDate()) << std::endl;
+        
+        if (isLicenseExpired()) {
+            std::cout << "License has expired." << std::endl;
+        } else {
+            std::cout << "License is still valid." << std::endl;
+        }
+    }
+
+    // Функция для форматирования даты в удобочитаемый вид (DD MM YYYY)
+    std::string formatDate(const std::chrono::system_clock::time_point& date) const {
+        std::time_t time = std::chrono::system_clock::to_time_t(date);
+        std::tm* tm = std::localtime(&time);
+        std::stringstream ss;
+        ss << std::setw(2) << std::setfill('0') << tm->tm_mday << " "
+           << std::setw(2) << std::setfill('0') << (tm->tm_mon + 1) << " "
+           << (tm->tm_year + 1900);
+        return ss.str();
     }
 };
 
 int main() {
-    // Пример использования класса Soft
-    std::chrono::system_clock::time_point expirationDate = std::chrono::system_clock::now() + std::chrono::hours(24 * 30 * 6); // Лицензия на 6 месяцев
+    // Получаем данные о программном обеспечении от пользователя
+    std::string name, developer;
+    double size;
+    std::cout << "Enter name of software: ";
+    std::cin >> name;
+    std::cout << "Enter developer of software: ";
+    std::cin >> developer;
+    std::cout << "Enter size of software (in MB): ";
+    std::cin >> size;
 
-    Soft mySoftware("MySoftware", "MyCompany", 50.5, expirationDate);
+    // Получаем дату начала действия лицензии от пользователя
+    std::cout << "Enter license start date in format DD MM YYYY: ";
+    int day, month, year;
+    std::cin >> day >> month >> year;
+    std::tm tm_date = {0};
+    tm_date.tm_year = year - 1900;
+    tm_date.tm_mon = month - 1;
+    tm_date.tm_mday = day;
+    std::chrono::system_clock::time_point licenseStartDate = std::chrono::system_clock::from_time_t(std::mktime(&tm_date));
+
+    // Задаем длительность лицензии (6 месяцев в данном случае)
+    std::chrono::system_clock::duration licenseDuration = std::chrono::hours(24 * 30 * 6);
+
+    // Создаем объект класса Soft
+    Soft mySoftware(name, developer, size, licenseStartDate, licenseDuration);
+
+    // Выводим информацию о программном обеспечении
     mySoftware.printInfo();
 
     return 0;
